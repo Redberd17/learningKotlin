@@ -1,7 +1,7 @@
 import java.util.*
 import kotlin.collections.HashMap
 
-class MySetImpl<T>: MySet<T> {
+class MySetImpl<T> : MySet<T> {
 
     private var map: HashMap<T, Any> = HashMap()
 
@@ -42,7 +42,6 @@ class MySetImpl<T>: MySet<T> {
     }
 
     override fun removeAll(t: Collection<T>): Boolean {
-        Objects.requireNonNull(t)
         var modified = false
         for (o in t)
             if (remove(o))
@@ -71,4 +70,27 @@ class MySetImpl<T>: MySet<T> {
         result.removeAll(t.map.keys)
         return result
     }
+
+    override fun iterator(): Iterator<T> {
+        return IteratorImpl()
+    }
+
+    private inner class IteratorImpl : Iterator<T> {
+        var index = 0
+
+        override fun hasNext(): Boolean = index < size()
+
+        override fun next(): T {
+            if (!hasNext()) throw NoSuchElementException()
+            return map.keys.elementAt(index++)
+        }
+    }
+}
+
+fun <T, R> MySet<T>.map(transform: (T) -> R): List<R> {
+    val newList: ArrayList<R> = ArrayList()
+    this.forEach {
+        newList.add(transform(it))
+    }
+    return newList
 }

@@ -1,4 +1,4 @@
-interface MySet<T> {
+interface MySet<T>: Iterable<T> {
 
     fun isEmpty(): Boolean
 
