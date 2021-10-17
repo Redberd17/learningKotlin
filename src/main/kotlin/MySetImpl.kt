@@ -1,4 +1,5 @@
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class MySetImpl<T> : MySet<T> {
@@ -91,6 +92,15 @@ fun <T, R> MySet<T>.map(transform: (T) -> R): List<R> {
     val newList: ArrayList<R> = ArrayList()
     this.forEach {
         newList.add(transform(it))
+    }
+    return newList
+}
+
+fun <T> MySet<T>.filter(condition: (T) -> Boolean): List<T> {
+    val newList: ArrayList<T> = ArrayList()
+    this.forEach {
+        if (condition(it))
+            newList.add(it)
     }
     return newList
 }
